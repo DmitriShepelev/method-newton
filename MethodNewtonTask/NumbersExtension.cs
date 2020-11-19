@@ -60,7 +60,7 @@ namespace MethodNewtonTask
             int k = 1;
             while (true)
             {
-                next = 1.0 / degree * (((degree - 1) * (k - 1)) + (number / (Math.Pow(prev, degree - 1) - k)));
+                next = 1.0 / degree * (((degree - 1) * prev) + (number / Math.Pow(prev, degree - 1)));
                 k++;
                 if (Math.Abs(prev - next) < accuracy)
                 {
