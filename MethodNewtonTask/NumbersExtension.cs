@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 
 namespace MethodNewtonTask
 {
@@ -30,7 +30,42 @@ namespace MethodNewtonTask
         /// </exception>
         public static double FindNthRoot(double number, int degree, double accuracy)
         {
-            throw new NotImplementedException();
+            if (number < 0 && (degree & 1) == 0)
+            {
+                throw new ArgumentException("Number A cannot be negative when the n degree is even.");
+            }
+
+            if (degree <= 0)
+            {
+                throw new ArgumentException("Degree can not be less or equal zero.");
+            }
+
+            if (accuracy < 0)
+            {
+                throw new ArgumentOutOfRangeException($"{nameof(accuracy)} cannot be less than zero.");
+            }
+
+            if (accuracy > NumbersExtension.AppSettings.Epsilon)
+            {
+                throw new ArgumentOutOfRangeException($"Accuracy should be less than {NumbersExtension.AppSettings.Epsilon}");
+            }
+
+            if (number is double.NegativeInfinity || number is double.PositiveInfinity || number is double.NaN)
+            {
+                throw new ArgumentException($"{nameof(number)} is not a finite value");
+            }
+
+            var x = 1.0;
+            int k = 1;
+            do
+            {
+                x = 1.0 / degree * (((degree - 1) * (x - k)) + (number / (Math.Pow(x, degree - 1) - k)));
+                k++;
+                x += k;
+            }
+            while (x != accuracy);
+
+            return x;
         }
     }
 }
