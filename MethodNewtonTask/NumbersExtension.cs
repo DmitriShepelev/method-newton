@@ -55,17 +55,22 @@ namespace MethodNewtonTask
                 throw new ArgumentException($"{nameof(number)} is not a finite value");
             }
 
-            var x = 1.0;
+            var prev = number;
+            double next;
             int k = 1;
-            do
+            while (true)
             {
-                x = 1.0 / degree * (((degree - 1) * (x - k)) + (number / (Math.Pow(x, degree - 1) - k)));
+                next = 1.0 / degree * (((degree - 1) * (k - 1)) + (number / (Math.Pow(prev, degree - 1) - k)));
                 k++;
-                x += k;
-            }
-            while (x != accuracy);
+                if (Math.Abs(prev - next) < accuracy)
+                {
+                    break;
+                }
 
-            return x;
+                prev = next;
+            }
+
+            return prev;
         }
     }
 }
